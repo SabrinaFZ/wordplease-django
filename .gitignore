@@ -1,0 +1,12 @@
+# Entornos virtuales
+env/
+venv/
+
+# PyCharm & VSCode
+.idea/
+.vscode/
+
+# SQLite
+*.sqlite3
+
+__pycache__
