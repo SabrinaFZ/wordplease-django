@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block head_title %} Wordplease {% endblock %}</title>
+</head>
+<body>
+    <div class="container">
+        <header>
+        <h3>Wordplease</h3>
+        <nav>
+            <a href="{% url 'home' %}" >Home</a> |
+            <a href="{% url 'blogs' %}" >Blogs</a> |
+            {% if user.is_authenticated %}
+                <a href="{% url 'new_post' %}">New Post</a> |
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a> |
+                <a href="{% url 'sign_up' %}">Sign Up</a>
+            {% endif %}
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        <h1>{% block main_title %} {% endblock %}</h1>
+        <div>{% block main_content %} {% endblock %}</div>
+    </main>
+
+    <footer>
+        <hr>
+        Wordplease &copy; {% now 'Y' %} All rights reserved
+    </footer>
+    </div>
+</body>
+</html>

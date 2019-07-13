@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block main_title %} Welcome to {{ blog_owner.username }}'s blog {% endblock %}
+
+{% block main_content %}
+    <h2> All posts </h2>
+    {% for post in blogs_posts %}
+        <a href="{% url 'post_detail' post.owner.username post.pk %}"><p>{{ post.title }}</p></a>
+    {% endfor %}
+{% endblock %}

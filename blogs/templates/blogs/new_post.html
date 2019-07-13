@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block main_title %} Create new post {% endblock %}
+
+{% block main_content %}
+    {% for message in messages %}
+        <p style="...">{{ message }}</p>
+    {% endfor %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save post</button>
+    </form>
+{% endblock %}

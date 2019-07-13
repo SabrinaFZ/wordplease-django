@@ -16,6 +16,26 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from blogs.views import LatestPostsView, BlogsListView, BlogDetailView, PostDetailView, NewPostView
+from users.views import LoginView, LogoutView, SignUpView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    # auth
+    path('login', LoginView.as_view(), name="login"),
+    path('logout', LogoutView.as_view(), name="logout"),
+    path('sign-up', SignUpView.as_view(), name="sign_up"),
+
+    # blogs
+    path('blogs/', BlogsListView.as_view(), name="blogs"),
+    path('blogs/<str:username>/', BlogDetailView.as_view(), name="blog_detail"),
+    path('blogs/<str:username>/<int:pk>', PostDetailView.as_view(), name="post_detail"),
+
+    # posts
+    path('new-post', NewPostView.as_view(), name="new_post"),
+
+    # home
+    path('', LatestPostsView.as_view(), name="home")
+
 ]
