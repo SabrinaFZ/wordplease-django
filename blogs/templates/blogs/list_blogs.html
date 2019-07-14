@@ -1,11 +1,18 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block main_title %} All blogs {% endblock %}
 
 {% block main_content %}
     {% for blog in object_list %}
-        <a href="{% url 'blog_detail' blog.owner %}">
-            <p>{{ blog.name }}</p>
-        </a>
+        <div class="card" style="margin-bottom: 2rem;">
+            {% static 'images/default_img_blog.jpeg' as default_image %}
+            <img src="{{ default_image }}" alt="{{ blog.name }}" title="{{ blog.name }}" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title"><a href="{% url 'blog_detail' blog.owner %}">{{ blog.name }}</a></h5>
+            <p class="card-text">Owner: {{ blog.owner }}</p>
+          </div>
+        </div>
     {% endfor %}
 {% endblock %}

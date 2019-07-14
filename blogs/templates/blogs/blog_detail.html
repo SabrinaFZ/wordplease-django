@@ -1,10 +1,19 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block main_title %} Welcome to {{ blog_owner.username }}'s blog {% endblock %}
 
 {% block main_content %}
     <h2> All posts </h2>
     {% for post in blogs_posts %}
-        <a href="{% url 'post_detail' post.owner.username post.pk %}"><p>{{ post.title }}</p></a>
+        <div class="card" style="margin-bottom: 2rem;">
+            {% static 'images/default_image.png' as default_image %}
+            <img src="{{ post.image | default:default_image }}" alt="{{ post.title }}" title="{{ post.title }}" class="card-img-top">
+            <div class="card-body">
+            <a href="{% url 'post_detail' post.owner.username post.pk %}"><h5 class="card-title">{{ post.title }}</h5></a>
+            <p class="card-text">{{ post.header }}</p>
+          </div>
+        </div>
     {% endfor %}
 {% endblock %}
