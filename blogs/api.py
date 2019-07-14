@@ -12,7 +12,6 @@ from blogs.models import Post, Blog
 
 class BlogViewSet(ModelViewSet):
 
-    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
     filter_backends = [SearchFilter, OrderingFilter]
     search_fields = ['owner__username']
     ordering_fields = ['name']
@@ -57,8 +56,9 @@ class PostAPIViewSet(GenericViewSet):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def retrieve(self, request, pk):
-        if (request.user.is_authenticated and request.user.username == getattr(Post.objects.get(pk=pk), 'owner').username) or request.user.is_superuser:
-            queryset = Post.objects.get(pk=pk)
+        queryset = Post.objects.get(pk=pk)
+        self.check_object_permissions(request, queryset)
+        if queryset:
             serializer = WritePostSerializer(queryset)
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
@@ -66,6 +66,7 @@ class PostAPIViewSet(GenericViewSet):
 
     def update(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        self.check_object_permissions(request, post)
         request_copy = request.data.copy()
         request_copy['owner'] = post.owner.id
         request_copy['blog'] = post.blog.id
@@ -79,7 +80,7 @@ class PostAPIViewSet(GenericViewSet):
 
     def destroy(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
-        # self.check_object_permissions(request, user)
+        self.check_object_permissions(request, post)
         if not post:
             return Response(status=status.HTTP_404_NOT_FOUND)
         else:
