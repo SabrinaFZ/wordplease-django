@@ -85,3 +85,5 @@ class SignUpView(View):
                 return redirect('home')
 
         return self.render_template_with_form(request, form)
+
+
